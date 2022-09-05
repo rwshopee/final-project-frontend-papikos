@@ -81,6 +81,7 @@ export default function HomePage() {
   useEffect(() => {
     axios.get(uRL, {
       'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
       'Content-Type': 'application/json',
     }).then((response) => {
       setHousesData(response.data.data.houses_data);
@@ -160,7 +161,7 @@ export default function HomePage() {
             ) : (
                 <div className="d-flex justify-content-end align-items-center col-4 col-xs-4 col-sm-4 col-md-4 col-lg-4 pr-3">
                   <a href="/signin" className="mr-5" style={{ color: 'black' }}>Sign In</a>
-                  <a href="/signin" style={{ color: 'darkred' }}>Sign Up</a>
+                  <a href="/signup" style={{ color: 'darkred' }}>Sign Up</a>
                 </div>
             )
           }
