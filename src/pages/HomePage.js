@@ -78,8 +78,9 @@ export default function HomePage() {
 
   useEffect(() => {
     axios.get(uRL, {
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
       'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
+      'Access-Control-Allow-Headers': '*'
     }).then((response) => {
       setHousesData(response.data.data.houses_data);
       setLoading(false);
