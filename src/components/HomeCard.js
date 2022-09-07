@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function HomeCard({
   id, name, city, price, guest,
@@ -20,11 +21,35 @@ export default function HomeCard({
     });
   }, []);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [clicked, setClicked] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem('token') != null) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (clicked) {
+      if (!isLoggedIn) {
+        navigate('signin');
+        return;
+      }
+      navigate(`houses/${id}`);
+    }
+  }, [clicked]);
+
+  const handleClick = () => {
+    setClicked(!clicked);
+  };
+
   return (
-    <div className="border border-1 border-info rounded p-2 my-3 mx-5 col-12 col-xs-12 col-sm-12 col-md-4 col-lg-2">
+    <div role="button" type="button" onClick={handleClick} className="btn pe-auto border border-1 border-info rounded p-2 my-3 mx-5 col-12 col-xs-12 col-sm-12 col-md-4 col-lg-2">
       {
         loading ? 'loading...' : (
-          <div role="button">
+          <div>
             {/* top */}
             <div className="position-relative mb-2" style={{ textAlign: 'center' }}>
               <img
@@ -35,7 +60,7 @@ export default function HomeCard({
               />
             </div>
             {/* bottom */}
-            <div>
+            <div style={{ color: 'black', textAlign: 'start' }}>
               <p>{name}</p>
               <p>{city}</p>
               <p>
@@ -48,7 +73,7 @@ export default function HomeCard({
                 {' '}
                 {guest}
                 {' '}
-                guests
+                {guest === 1 ? 'guest' : 'guests'}
               </p>
             </div>
           </div>

@@ -4,7 +4,7 @@ export default function HomeCards({ housesData, loading }) {
   return (
     <div>
       {
-          loading ? 'loading...' : (
+          loading ? <div className="p-5 mt-2" style={{ textAlign: 'center' }}><h3>loading...</h3></div> : (
             <div className="justify-content-center mx-2 p-5 mb-5 row">
               {housesData.map((house) => (
                 <HomeCard

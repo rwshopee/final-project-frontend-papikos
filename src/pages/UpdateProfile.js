@@ -1,32 +1,55 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import logo from '../assets/images/papikos.png';
 
-export default function SignUp() {
-  const [email, setEmail] = useState('');
+export default function UpdateProfile() {
   const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
-  const [cityId, setCityId] = useState(100001);
-  const [cityName, setCityName] = useState('Jakarta');
+  const [cityId, setCityId] = useState(0);
+  const [cityName, setCityName] = useState('');
   const [citiesData, setCitiesData] = useState([]);
   const [address, setAddress] = useState('');
+  const [role, setRole] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isValid, setIsValid] = useState(false);
-  const [isSignedUp, setIsSignedUp] = useState(false);
+  const [isEdited, setIsEdited] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isCitiesRetrieved, setIsCitiesRetrieved] = useState(false);
+  const [userFetched, setUserFetched] = useState(false);
+  const [isUser, setIsUser] = useState(false);
+  const [isHost, setIsHost] = useState(false);
 
   const uRL = 'http://localhost:8080/';
 
-  const user = JSON.stringify({
-    email,
+  const data = JSON.stringify({
     full_name: fullName,
     password,
-    city_id: cityId,
-    city_name: cityName,
     address,
+    city_id: parseInt(cityId, 10),
+    role,
   });
+
+  const token = `Bearer ${localStorage.getItem('token')}`;
+
+  const config = {
+    headers: {
+      Authorization: token,
+    },
+  };
+
+  useEffect(() => {
+    axios.get(`${uRL}users/details`, config).then((response) => {
+      setFullName(response.data.data.user_data.full_name);
+      setCityId(response.data.data.user_data.city_id);
+      setAddress(response.data.data.user_data.address);
+      setRole(response.data.data.user_data.role);
+      setUserFetched(true);
+      if (role === 'user') {
+        setIsUser(true);
+        return;
+      }
+      setIsHost(true);
+    });
+  }, [userFetched]);
 
   useEffect(() => {
     axios.get(`${uRL}cities`).then((response) => {
@@ -38,19 +61,28 @@ export default function SignUp() {
 
   useEffect(() => {
     setLoading(true);
-    if (isValid) {
-      axios.post(`${uRL}signup`, user).then((response) => {
+    console.log(data);
+    if (isSubmitted) {
+      axios.patch(`${uRL}users/details`, data, config).then((response) => {
         if (response.status === 200) {
-          setIsSignedUp(true);
+          setIsEdited(true);
+          console.log(response);
         }
+      }).catch((error) => {
+        console.log(error);
+        console.log(error.message);
       });
     }
-  }, [isValid]);
+  }, [isSubmitted]);
 
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     setIsSubmitted(e.target.value);
+  };
+
+  const handleRole = (e) => {
+    setRole(e.target.value);
   };
 
   const handleCity = (event) => {
@@ -68,46 +100,23 @@ export default function SignUp() {
 
   useEffect(() => {
     setLoading(false);
-    if (isSignedUp) {
-      navigate('/signin');
+    if (isEdited) {
+      navigate('/profile');
     }
-  }, [isSignedUp]);
-
-  useEffect(() => {
-    if (isSubmitted) {
-      if (email !== '' && fullName !== '' && password !== '' && cityName !== '' && cityId !== 0 && address !== '') {
-        setIsValid(true);
-      }
-    }
-  }, [isSubmitted]);
+  }, [isEdited]);
 
   return (
-    loading ? (
+    loading && fullName && password && cityName && cityId && address && role ? (
       <div>
-        <div className="d-flex justify-content-center align-content-center p-5" style={{ height: '50vh', marginTop: '5rem' }}>
-          <h2>Signing up...</h2>
+        <div className="d-flex justify-content-center align-content-center p-4" style={{ height: '50vh', marginTop: '5rem' }}>
+          <h2>Editing profile...</h2>
         </div>
       </div>
     ) : (
-      <div className="d-flex justify-content-center align-content-center p-5" style={{ height: '50vh', marginTop: '2rem' }}>
+      <div className="d-flex justify-content-center align-content-center p-4" style={{ height: '50vh', marginTop: '2rem' }}>
         <div>
-          <div className="d-flex justify-content-center align-items-center">
-            <a href="/" className="d-none d-sm-none d-md-block">
-              <img src={logo} alt="papikos logo" />
-            </a>
-          </div>
-          <p className="mt-2" style={{ textAlign: 'center' }}>Sign Up</p>
+          <h2 className="p-2 my-2" style={{ textAlign: 'center' }}>Edit Profile</h2>
           <form className="border border-1 border-info px-5 pt-5 pb-4">
-            <div className="form-group">
-              <label>Email address</label>
-              <input
-                className="form-control"
-                placeholder="Enter email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                style={{ outline: 'none' }}
-              />
-            </div>
             <div className="form-group">
               <label>Full Name</label>
               <input
@@ -138,7 +147,7 @@ export default function SignUp() {
                     selected={cityName}
                     value={cities.id}
                   >
-                    {cities.name}
+                    {cityName}
                   </option>
                 ))}
               </select>
@@ -163,8 +172,25 @@ export default function SignUp() {
                 style={{ outline: 'none' }}
               />
             </div>
+            <div className="form-group">
+              <label>Role</label>
+              <select className="form-control" onChange={handleRole}>
+                <option
+                  selected={isUser}
+                  value="user"
+                >
+                  User
+                </option>
+                <option
+                  selected={isHost}
+                  value="host"
+                >
+                  Host
+                </option>
+              </select>
+            </div>
             <div className="d-flex justify-content-center mt-4">
-              <button type="button" className="btn btn-outline-info" onClick={handleSubmit} value="true">Submit</button>
+              <button type="button" className="btn btn-info" onClick={handleSubmit} value="true">Edit Profile</button>
             </div>
           </form>
         </div>
