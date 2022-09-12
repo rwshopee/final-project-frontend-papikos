@@ -7,7 +7,7 @@ import Footer from '../components/Footer';
 export default function Wallet() {
   const token = `Bearer ${localStorage.getItem('token')}`;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const uRL = 'http://localhost:8080/';
+  const uRL = 'https://papikos-api.herokuapp.com/';
 
   const config = {
     headers: {

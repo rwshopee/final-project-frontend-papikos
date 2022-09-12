@@ -26,7 +26,7 @@ export default function HomePage() {
   const [sort, setSort] = useState('asc');
 
   const [page, setPage] = useState(1);
-  const [uRL, setURL] = useState('http://localhost:8080/');
+  const [uRL, setURL] = useState('https://papikos-api.herokuapp.com/');
 
   const [totalHouses, setTotalHouses] = useState(0);
 
@@ -64,23 +64,23 @@ export default function HomePage() {
 
   const handleNext = () => {
     setPage(page + 1);
-    setURL(`http://papikos-api.herokuapp.com/?search=${searchInput}&searchType=${searchType}&sortBy=${sortBy}&sort=${sort}&start=${startDate}&end=${endDate}&page=${page + 1}`);
+    setURL(`https://papikos-api.herokuapp.com/?search=${searchInput}&searchType=${searchType}&sortBy=${sortBy}&sort=${sort}&start=${startDate}&end=${endDate}&page=${page + 1}`);
     console.log(uRL);
   };
 
   const handlePrev = () => {
     if (page > 1) {
       setPage(page - 1);
-      setURL(`http://papikos-api.herokuapp.com/?search=${searchInput}&searchType=${searchType}&sortBy=${sortBy}&sort=${sort}&start=${startDate}&end=${endDate}&limit=8&page=${page - 1}`);
+      setURL(`https://papikos-api.herokuapp.com/?search=${searchInput}&searchType=${searchType}&sortBy=${sortBy}&sort=${sort}&start=${startDate}&end=${endDate}&limit=8&page=${page - 1}`);
     }
   };
 
   const handleSubmit = () => {
     if (inputInserted) {
-      setURL(`http://papikos-api.herokuapp.com/?search=${searchInput}&searchType=${searchType}&sortBy=${sortBy}&sort=${sort}&start=${startDate}&end=${endDate}&limit=8&page=${page}`);
+      setURL(`https://papikos-api.herokuapp.com/?search=${searchInput}&searchType=${searchType}&sortBy=${sortBy}&sort=${sort}&start=${startDate}&end=${endDate}&limit=8&page=${page}`);
       return;
     }
-    setURL(`http://localhost:8080/?sortBy=${sortBy}&sort=${sort}`);
+    setURL(`https://papikos-api.herokuapp.com/?sortBy=${sortBy}&sort=${sort}`);
   };
 
   const config = {

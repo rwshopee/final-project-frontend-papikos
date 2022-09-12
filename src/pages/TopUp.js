@@ -11,7 +11,7 @@ export default function TopUp() {
   const [source, setSource] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isModalSubmitted, setIsModalSubmitted] = useState(false);
-  const uRL = 'http://localhost:8080/';
+  const uRL = 'https://papikos-api.herokuapp.com/';
 
   const body = JSON.stringify({
     amount: parseInt(amount, 10),

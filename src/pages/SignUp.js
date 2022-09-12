@@ -17,7 +17,7 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [isCitiesRetrieved, setIsCitiesRetrieved] = useState(false);
 
-  const uRL = 'http://localhost:8080/';
+  const uRL = 'https://papikos-api.herokuapp.com/';
 
   const user = JSON.stringify({
     email,

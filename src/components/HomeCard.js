@@ -10,7 +10,7 @@ export default function HomeCard({
     currency: 'IDR',
   });
 
-  const photosURL = `http://papikos-api.herokuapp.com/photos/firsts/${id}`;
+  const photosURL = `https://papikos-api.herokuapp.com/photos/firsts/${id}`;
   const [photoData, setPhotoData] = useState([]);
   const [loading, setLoading] = useState(true);
 

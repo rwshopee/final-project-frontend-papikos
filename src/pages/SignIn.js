@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../assets/images/papikos.png';
 
 export default function SignIn() {
-  const uRL = 'http://papikos-api.herokuapp.com/signin';
+  const uRL = 'https://papikos-api.herokuapp.com/signin';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

@@ -20,7 +20,7 @@ export default function UpdateProfile() {
   const [isUser, setIsUser] = useState(false);
   const [isHost, setIsHost] = useState(false);
 
-  const uRL = 'http://localhost:8080/';
+  const uRL = 'https://papikos-api.herokuapp.com/';
 
   const data = JSON.stringify({
     full_name: fullName,
