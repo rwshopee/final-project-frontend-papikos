@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import GeneralHeader from '../components/GeneralHeader';
+import Footer from '../components/Footer';
 
 export default function Profile() {
   const token = `Bearer ${localStorage.getItem('token')}`;
@@ -69,60 +71,65 @@ export default function Profile() {
 
   return (
     <div>
+      <GeneralHeader />
       {
           cityName ? (
             <div>
               <div>
-                <div className="p-5" style={{ textAlign: 'center' }}>
-                  <h1>
+                <div className="mt-5" style={{ textAlign: 'center' }}>
+                  <h3>
                     Profile
-                  </h1>
-                </div>
-                <div className="p-3" style={{ textAlign: 'left' }}>
-                  <h3>
-                    Email:
-                    {' '}
-                    {email}
                   </h3>
                 </div>
-                <div className="p-3" style={{ textAlign: 'left' }}>
-                  <h3>
-                    Full Name:
-                    {' '}
-                    {name}
-                  </h3>
+                <div className="d-flex justify-content-center row">
+                  <div className="col-8">
+                    <div className="my-3" style={{ textAlign: 'left' }}>
+                      <p>
+                        Email:
+                        {' '}
+                        {email}
+                      </p>
+                    </div>
+                    <div className="my-3" style={{ textAlign: 'left' }}>
+                      <p>
+                        Full Name:
+                        {' '}
+                        {name}
+                      </p>
+                    </div>
+                    <div className="my-3" style={{ textAlign: 'left' }}>
+                      <p>
+                        City ID:
+                        {' '}
+                        {cityId}
+                      </p>
+                    </div>
+                    <div className="my-3" style={{ textAlign: 'left' }}>
+                      <p>
+                        City Name:
+                        {' '}
+                        {cityName}
+                      </p>
+                    </div>
+                    <div className="my-3" style={{ textAlign: 'left' }}>
+                      <p>
+                        Address:
+                        {' '}
+                        {address}
+                      </p>
+                    </div>
+                    <div className="my-3" style={{ textAlign: 'left' }}>
+                      <p>
+                        Role:
+                        {' '}
+                        {role}
+                      </p>
+                    </div>
+                    <div className="d-flex justify-content-center mt-5">
+                      <button type="button" className="btn btn-info" onClick={handleSubmit} value="true">Edit profile</button>
+                    </div>
+                  </div>
                 </div>
-                <div className="p-3" style={{ textAlign: 'left' }}>
-                  <h3>
-                    City ID:
-                    {' '}
-                    {cityId}
-                  </h3>
-                </div>
-                <div className="p-3" style={{ textAlign: 'left' }}>
-                  <h3>
-                    City Name:
-                    {' '}
-                    {cityName}
-                  </h3>
-                </div>
-                <div className="p-3" style={{ textAlign: 'left' }}>
-                  <h3>
-                    Address:
-                    {' '}
-                    {address}
-                  </h3>
-                </div>
-                <div className="p-3" style={{ textAlign: 'left' }}>
-                  <h3>
-                    Role:
-                    {' '}
-                    {role}
-                  </h3>
-                </div>
-              </div>
-              <div className="d-flex justify-content-center mt-5">
-                <button type="button" className="btn btn-info" onClick={handleSubmit} value="true">Edit profile</button>
               </div>
             </div>
           ) : (
@@ -133,6 +140,7 @@ export default function Profile() {
             </div>
           )
         }
+      <Footer />
     </div>
   );
 }

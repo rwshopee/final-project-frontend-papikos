@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import GeneralHeader from '../components/GeneralHeader';
+import Footer from '../components/Footer';
 
 export default function UpdateProfile() {
   const [fullName, setFullName] = useState('');
@@ -106,95 +108,101 @@ export default function UpdateProfile() {
   }, [isEdited]);
 
   return (
-    loading && fullName && password && cityName && cityId && address && role ? (
-      <div>
-        <div className="d-flex justify-content-center align-content-center p-4" style={{ height: '50vh', marginTop: '5rem' }}>
-          <h2>Editing profile...</h2>
-        </div>
-      </div>
-    ) : (
-      <div className="d-flex justify-content-center align-content-center p-4" style={{ height: '50vh', marginTop: '2rem' }}>
-        <div>
-          <h2 className="p-2 my-2" style={{ textAlign: 'center' }}>Edit Profile</h2>
-          <form className="border border-1 border-info px-5 pt-5 pb-4">
-            <div className="form-group">
-              <label>Full Name</label>
-              <input
-                className="form-control"
-                placeholder="Enter full name"
-                value={fullName}
-                onChange={(event) => setFullName(event.target.value)}
-                style={{ outline: 'none' }}
-              />
+    <div>
+      <GeneralHeader />
+      {
+        loading && fullName && password && cityName && cityId && address && role ? (
+          <div>
+            <div className="d-flex justify-content-center align-content-center p-4" style={{ height: '50vh', marginTop: '5rem' }}>
+              <h2>Editing profile...</h2>
             </div>
-            <div className="form-group">
-              <label>Password</label>
-              <input
-                className="form-control"
-                placeholder="Enter password"
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                style={{ outline: 'none' }}
-              />
+          </div>
+        ) : (
+          <div className="d-flex justify-content-center align-content-center px-4" style={{ height: '50vh', marginTop: '1rem' }}>
+            <div>
+              <h2 className="p-2 mb-2" style={{ textAlign: 'center' }}>Edit Profile</h2>
+              <form className="border border-1 border-info px-5 pt-5 pb-4">
+                <div className="form-group">
+                  <label>Full Name</label>
+                  <input
+                    className="form-control"
+                    placeholder="Enter full name"
+                    value={fullName}
+                    onChange={(event) => setFullName(event.target.value)}
+                    style={{ outline: 'none' }}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Password</label>
+                  <input
+                    className="form-control"
+                    placeholder="Enter password"
+                    type="password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    style={{ outline: 'none' }}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>City name</label>
+                  <select className="form-control" onChange={handleCity}>
+                    {citiesData.map((cities) => (
+                      <option
+                        key={cities.id}
+                        selected={cityName}
+                        value={cities.id}
+                      >
+                        {cities.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label>City ID</label>
+                  <input
+                    className="form-control"
+                    placeholder={cityId}
+                    value={cityId}
+                    readOnly
+                    style={{ outline: 'none' }}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Address</label>
+                  <input
+                    className="form-control"
+                    placeholder="Enter address"
+                    value={address}
+                    onChange={(event) => setAddress(event.target.value)}
+                    style={{ outline: 'none' }}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Role</label>
+                  <select className="form-control" onChange={handleRole}>
+                    <option
+                      selected={isUser}
+                      value="user"
+                    >
+                      User
+                    </option>
+                    <option
+                      selected={isHost}
+                      value="host"
+                    >
+                      Host
+                    </option>
+                  </select>
+                </div>
+                <div className="d-flex justify-content-center mt-4">
+                  <button type="button" className="btn btn-info" onClick={handleSubmit} value="true">Edit Profile</button>
+                </div>
+              </form>
             </div>
-            <div className="form-group">
-              <label>City name</label>
-              <select className="form-control" onChange={handleCity}>
-                {citiesData.map((cities) => (
-                  <option
-                    key={cities.id}
-                    selected={cityName}
-                    value={cities.id}
-                  >
-                    {cityName}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group">
-              <label>City ID</label>
-              <input
-                className="form-control"
-                placeholder={cityId}
-                value={cityId}
-                readOnly
-                style={{ outline: 'none' }}
-              />
-            </div>
-            <div className="form-group">
-              <label>Address</label>
-              <input
-                className="form-control"
-                placeholder="Enter address"
-                value={address}
-                onChange={(event) => setAddress(event.target.value)}
-                style={{ outline: 'none' }}
-              />
-            </div>
-            <div className="form-group">
-              <label>Role</label>
-              <select className="form-control" onChange={handleRole}>
-                <option
-                  selected={isUser}
-                  value="user"
-                >
-                  User
-                </option>
-                <option
-                  selected={isHost}
-                  value="host"
-                >
-                  Host
-                </option>
-              </select>
-            </div>
-            <div className="d-flex justify-content-center mt-4">
-              <button type="button" className="btn btn-info" onClick={handleSubmit} value="true">Edit Profile</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    )
+          </div>
+        )
+      }
+      <Footer />
+    </div>
   );
 }

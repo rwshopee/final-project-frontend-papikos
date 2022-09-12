@@ -54,7 +54,6 @@ export default function HomeCard({
             <div className="position-relative mb-2" style={{ textAlign: 'center' }}>
               <img
                 className="img-fluid"
-                style={{ height: '12rem' }}
                 src={photoData.data.photo.photo_url}
                 alt=""
               />

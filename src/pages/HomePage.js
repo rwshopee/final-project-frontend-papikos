@@ -14,6 +14,8 @@ export default function HomePage() {
   });
 
   const [searchInput, setSearchInput] = useState('');
+  const [inputInserted, setInsertedInput] = useState(false);
+
   const [startDate, setStartDate] = useState(moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'));
   const [endDate, setEndDate] = useState(moment(new Date()).format('YYYY-MM-DDTHH:mm:ss'));
 
@@ -74,20 +76,12 @@ export default function HomePage() {
   };
 
   const handleSubmit = () => {
-    setURL(`http://papikos-api.herokuapp.com/?search=${searchInput}&searchType=${searchType}&sortBy=${sortBy}&sort=${sort}&start=${startDate}&end=${endDate}&limit=8&page=${page}`);
+    if (inputInserted) {
+      setURL(`http://papikos-api.herokuapp.com/?search=${searchInput}&searchType=${searchType}&sortBy=${sortBy}&sort=${sort}&start=${startDate}&end=${endDate}&limit=8&page=${page}`);
+      return;
+    }
+    setURL(`http://localhost:8080/?sortBy=${sortBy}&sort=${sort}`);
   };
-
-  const [housesData, setHousesData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    axios.get(uRL).then((response) => {
-      setHousesData(response.data.data.houses_data);
-      setTotalHouses(response.data.data.houses_data.length);
-      setLoading(false);
-      console.log(response);
-    });
-  }, [uRL]);
 
   const config = {
     headers: {
@@ -135,6 +129,24 @@ export default function HomePage() {
 
   const menuClass = `position-absolute mt-5 mr-5 text-left dropdown-menu${state.isOpen ? 'show' : ''}`;
 
+  const handleInput = (e) => {
+    setSearchInput(e.target.value);
+    setInsertedInput(true);
+  };
+
+  const [housesData, setHousesData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    console.log('URL', uRL);
+    axios.get(uRL).then((response) => {
+      setHousesData(response.data.data.houses_data);
+      setTotalHouses(response.data.data.houses_data.length);
+      setLoading(false);
+      console.log(response);
+    });
+  }, [uRL]);
+
   return (
     <div>
       <div className="sticky-top bg-white shadow-sm px-5 py-3 md:px-10 row mr-0">
@@ -162,7 +174,7 @@ export default function HomePage() {
           <div className="d-flex align-items-center rounded-pill border border-info p-2">
             <input
               value={searchInput}
-              onChange={(event) => setSearchInput(event.target.value)}
+              onChange={handleInput}
               className="form-control border border-0 ml-2 mr-auto"
               id="search-bar"
               placeholder="Search houses..."
@@ -184,14 +196,13 @@ export default function HomePage() {
                     className={menuClass}
                     aria-labelledby="dropdownMenuButton"
                     style={{
-                      background: 'white', borderStyle: 'solid', borderRadius: '10px', borderColor: '#045D5D', borderWidth: '1px',
+                      background: 'white', borderStyle: 'solid', borderRadius: '10px', borderColor: '#045D5D', borderWidth: '1px', position: 'relative',
                     }}
                   >
                     <div className="p-2">
                       <a className="dropdown-item px-1" href="/profile">Profile</a>
-                      <a className="dropdown-item px-1" href="/">Top up</a>
-                      <a className="dropdown-item px-1" href="/">Be a host</a>
-                      <a className="dropdown-item px-1" href="/">Pick up</a>
+                      <a className="dropdown-item px-1" href="/wallet">Wallet</a>
+                      <a className="dropdown-item px-1" href="/bookings">Bookings</a>
                       <a type="button" role="button" className="dropdown-item px-1">Games</a>
                       <a type="button" role="button" className="dropdown-item px-1" onClick={handleSignOut} style={{ backgroundColor: 'darkred', color: 'white', textAlign: 'center' }}>Sign out</a>
                     </div>
@@ -207,56 +218,38 @@ export default function HomePage() {
             </div>
           )
         }
-        {
-                    searchInput && (
-                    <div className="d-flex justify-content-xs-between justify-content-sm-between justify-content-md-center justify-content-lg-center p-0 mr-0 mt-5 mb-2 col-12">
-                      <input type="date" onChange={handleSelectStart} />
-                      <input type="date" onChange={handleSelectEnd} />
-                    </div>
-                    )
-                }
-        {
-                    searchInput && (
-                    <div className="d-flex justify-content-center align-content-center align-self-center col-xs-12 col-sm-12 col-md-12 col-lg-12 p-0 mb-2">
-                      <p className="d-flex justify-content-start align-content-center mr-2 my-0 p-0">Search by:</p>
-                      <select className="w-25" value={searchType} onChange={handleSearchType}>
-                        <option value="name">Name</option>
-                        <option value="city">City</option>
-                      </select>
-                    </div>
-                    )
-                }
-        {
-                    searchInput && (
-                    <div className="d-flex justify-content-center align-content-center align-self-center col-xs-12 col-sm-12 col-md-12 col-lg-12 p-0 mb-2">
-                      <p className="d-flex justify-content-start align-content-center mr-2 my-0 p-0">Sort by:</p>
-                      <select className="w-25" value={sortBy} onChange={handleSortBy}>
-                        <option value="name">Name</option>
-                        <option value="city">City</option>
-                        <option value="price">Price</option>
-                      </select>
-                    </div>
-                    )
-                }
-        {
-                    searchInput && (
-                    <div className="d-flex justify-content-center align-content-center align-self-center col-xs-12 col-sm-12 col-md-12 col-lg-12 p-0 mb-2">
-                      <select className="w-25" onChange={handleSort}>
-                        <option value="asc">ASC</option>
-                        <option value="desc">DESC</option>
-                      </select>
-                    </div>
-                    )
-                }
-        {
-                    searchInput && (
-                    <div className="d-flex justify-content-center align-content-center align-self-center col-xs-12 col-sm-12 col-md-12 col-lg-12 p-0">
-                      <button type="submit" className="btn btn-info" onClick={handleSubmit} value="true">
-                        Submit
-                      </button>
-                    </div>
-                    )
-        }
+      </div>
+      <div className="mb-4">
+        <div className="d-flex justify-content-center p-0 mr-0 mt-3 mb-2 col-12">
+          <input type="date" className="mr-2" onChange={handleSelectStart} />
+          <input type="date" onChange={handleSelectEnd} />
+        </div>
+        <div className="d-flex justify-content-center align-content-center align-self-center col-xs-12 col-sm-12 col-md-12 col-lg-12 p-0 mb-2">
+          <p className="d-flex justify-content-start align-content-center mr-2 my-0 p-0">Search by:</p>
+          <select className="w-25" value={searchType} onChange={handleSearchType}>
+            <option value="name">Name</option>
+            <option value="city">City</option>
+          </select>
+        </div>
+        <div className="d-flex justify-content-center align-content-center align-self-center col-xs-12 col-sm-12 col-md-12 col-lg-12 p-0 mb-2">
+          <p className="d-flex justify-content-start align-content-center mr-2 my-0 p-0">Sort by:</p>
+          <select className="w-25" value={sortBy} onChange={handleSortBy}>
+            <option value="name">Name</option>
+            <option value="city">City</option>
+            <option value="price">Price</option>
+          </select>
+        </div>
+        <div className="d-flex justify-content-center align-content-center align-self-center col-xs-12 col-sm-12 col-md-12 col-lg-12 p-0 mb-2">
+          <select className="w-25" onChange={handleSort}>
+            <option value="asc">ASC</option>
+            <option value="desc">DESC</option>
+          </select>
+        </div>
+        <div className="d-flex justify-content-center align-content-center align-self-center col-xs-12 col-sm-12 col-md-12 col-lg-12 p-0 mt-4">
+          <button type="submit" className="btn btn-info" onClick={handleSubmit} value="true">
+            List houses!
+          </button>
+        </div>
       </div>
       {
         name !== '' && isLoggedIn ? (
