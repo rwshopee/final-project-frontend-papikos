@@ -6,16 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="44d882b1-1ade-4acf-91cf-aa47c7ca8592" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/HomeCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/HomeCard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Booking.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Booking.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/BookingCode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/BookingCode.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/HomePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/SignIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/SignIn.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/SignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/SignUp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/TopUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/TopUp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/UpdateProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/UpdateProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Wallet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Wallet.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
