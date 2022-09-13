@@ -9,7 +9,7 @@ export default function Booking() {
   const token = `Bearer ${localStorage.getItem('token')}`;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [photosRetrieved, setPhotosRetrieved] = useState(false);
-  const uRL = 'https://papikos-web.herokuapp.com/';
+  const uRL = 'https://papikos-api.herokuapp.com/';
 
   const config = {
     headers: {
