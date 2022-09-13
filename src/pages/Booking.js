@@ -110,10 +110,10 @@ export default function Booking() {
           setIsBooked(true);
           setReservationId(response.data.data.bookings_data[i].id);
           setTotalPrice(response.data.data.bookings_data[i].total_price);
-          setHouseChecked(true);
-          return;
+          break;
         }
       }
+      setHouseChecked(true);
     });
   }, []);
 
@@ -164,6 +164,7 @@ export default function Booking() {
         console.log(response);
         window.alert('Booking successful');
         setReservationId(response.data.data.reservation_data.id);
+        setTotalPrice(response.data.data.reservation_data.total_price);
         setIsBooked(true);
       }).catch(() => {
         window.alert('Booking failed');
@@ -260,7 +261,7 @@ export default function Booking() {
                                       {' '}
                                       {' '}
                                       {' '}
-                                      {formatter.format(totalPrice).replace('Rp', 'IDR')}
+                                      { formatter.format(totalPrice).replace('Rp', 'IDR') }
                                     </p>
                                     <button className="btn btn-success mb-3" type="button" onClick={handlePayment}>Pay</button>
                                   </div>
